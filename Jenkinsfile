@@ -4,9 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             when {
-                anyOf {
-                    branch 'develop'
-                    branch 'main'
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'develop'
                 }
             }
             steps {
@@ -16,9 +15,8 @@ pipeline {
 
         stage('Restore Dependencies') {
             when {
-                anyOf {
-                    branch 'develop'
-                    branch 'main'
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'develop'
                 }
             }
             steps {
@@ -28,9 +26,8 @@ pipeline {
 
         stage('Build') {
             when {
-                anyOf {
-                    branch 'develop'
-                    branch 'main'
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'develop'
                 }
             }
             steps {
@@ -40,9 +37,8 @@ pipeline {
 
         stage('Test') {
             when {
-                anyOf {
-                    branch 'develop'
-                    branch 'main'
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'develop'
                 }
             }
             steps {
