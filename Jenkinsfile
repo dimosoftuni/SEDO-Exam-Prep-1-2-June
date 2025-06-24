@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'windows'
-    }
+    agent any
 
     stages {
         stage('Run only on develop or main') {
