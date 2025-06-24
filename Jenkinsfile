@@ -2,37 +2,51 @@ pipeline {
     agent any
 
     stages {
-        stage('Run only on develop or main') {
+        stage('Checkout') {
             when {
                 anyOf {
                     branch 'develop'
                     branch 'main'
                 }
             }
-            stages {
-                stage('Checkout') {
-                    steps {
-                        checkout scm
-                    }
-                }
+            steps {
+                checkout scm
+            }
+        }
 
-                stage('Restore Dependencies') {
-                    steps {
-                        bat 'dotnet restore'
-                    }
+        stage('Restore Dependencies') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'main'
                 }
+            }
+            steps {
+                bat 'dotnet restore'
+            }
+        }
 
-                stage('Build') {
-                    steps {
-                        bat 'dotnet build --no-restore'
-                    }
+        stage('Build') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'main'
                 }
+            }
+            steps {
+                bat 'dotnet build --no-restore'
+            }
+        }
 
-                stage('Test') {
-                    steps {
-                        bat 'dotnet test --no-build --verbosity normal'
-                    }
+        stage('Test') {
+            when {
+                anyOf {
+                    branch 'develop'
+                    branch 'main'
                 }
+            }
+            steps {
+                bat 'dotnet test --no-build --verbosity normal'
             }
         }
     }
